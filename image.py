@@ -1,25 +1,26 @@
 from google.cloud import vision
 import io
+import os
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./googleserviceaccount.json"
 
 #gets image and detects text in image
 def text_in_image(image):
     client = vision.ImageAnnotatorClient()
 
-    image_path = image
-
-    with open(image_path, "rb") as image_file:
-        content = image_file.read()
+    content = image.read()
         
     image = vision.Image(content=content)
-
     response = client.text_detection(image=image)
     texts = response.text_annotations
+    print(type(texts.textAnnotations))
+    print(texts.textAnnotations)
 
-    print('Detected text:')
-    for text in texts:
-        print(text.description)
-
-    if response.error.message:
-        raise Exception(f'{response.error.message}')
     
-    return
+    # full_text = " ".join([text.description for text in texts])
+
+    # # Handle errors
+    # if response.error.message:
+    #     raise Exception(f'{response.error.message}')
+    
+    return texts.textAnnotations

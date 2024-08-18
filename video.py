@@ -4,7 +4,7 @@ from vertexai.generative_models import GenerativeModel, Part
 
 
 def video_to_text(video):
-    vertexai.init(project="iron-entropy-432917-v6", location="us-central1")
+    vertexai.init(project="headstarterweek4", location="us-central1")
 
     model = GenerativeModel("gemini-1.5-flash-001")
 
@@ -13,9 +13,9 @@ def video_to_text(video):
     Analyzes video content, detecting and categorizing complaints
     """
 
-    video_file = Part.from_uri(video, mime_type="video/mp4")
+    # video_file = Part.from_uri(video, mime_type="video/mp4")
 
-    contents = [video_file, prompt]
+    contents = [video, prompt]
 
     response = model.generate_content(contents)
     print(response.text)

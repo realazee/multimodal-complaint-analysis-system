@@ -17,6 +17,11 @@
             background-color: #f2f2f2;
             text-align: left;
         }
+        .action-button {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -26,19 +31,19 @@
             <tr>
                 <th>ID</th>
                 <th>Details</th>
-                <th>Type</th>
-                <th>Created At</th>
-                <th>Action</th> 
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for complaint in complaints %}
             <tr>
                 <td>{{ complaint[0] }}</td>
-                <td>{{ complaint[1] }}</td>
                 <td>{{ complaint[2] }}</td>
-                <td>{{ complaint[3] }}</td>
-                <td><a href="{{ url_for('complaint', id=complaint[0]) }}">View</a></td>
+                <td>
+                    <form action="{{ url_for('delete_complaint', id=complaint[0]) }}" method="post" style="display: inline;">
+                        <button type="submit" class="action-button">Delete</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

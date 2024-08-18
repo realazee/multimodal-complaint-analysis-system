@@ -163,3 +163,4 @@ cython_debug/
 
 #database config
 database.ini
+googleserviceaccount.json
