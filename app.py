@@ -10,13 +10,18 @@ app = Flask(__name__)
 
 def connect_to_db():
     config = load_config()
-    return connect(config)
-
+    try:
+        return connect(config)
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return None
+    
 conn = connect_to_db()
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -25,24 +30,25 @@ def submit():
     complaint_type = request.form.get('complaintType')  # Determines the type of complaint
 
     if user_text and complaint_type == 'text':
-        processed_data = process_text(user_text)
+        processed_data = process_text(user_text).text
         cur = conn.cursor()
-        cur.execute("INSERT INTO complaints (details) VALUES (%s)", (processed_data,))
+        cur.execute("INSERT INTO complaints (details, type) VALUES (%s, %s)", (processed_data, complaint_type))
         conn.commit()
 
     if file:
         if complaint_type == 'voice':
-            processed_data = audio_to_speech(file)
+            processed_data = process_text(audio_to_speech(file))["returnText"]["complaint"]
         elif complaint_type == 'image':
-            processed_data = text_in_image(file)
+            processed_data = process_text(text_in_image(file))["returnText"]["complaint"]
         elif complaint_type == 'video':
-            processed_data = video_to_text(file)
+            processed_data = process_text(video_to_text(file))["returnText"]["complaint"]
         
         cur = conn.cursor()
-        cur.execute("INSERT INTO complaints (details) VALUES (%s)", (processed_data,))
+        cur.execute("INSERT INTO complaints (details, type) VALUES (%s, %s)", (processed_data, complaint_type))
         conn.commit()
 
     return redirect(url_for('complaints'))
+
 
 @app.route('/complaints')
 def complaints():
@@ -60,3 +66,9 @@ def complaint(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    conn = connect_to_db()
+    if conn:
+        print("Database connection successful")
+    else:
+        print("Database connection failed")
+

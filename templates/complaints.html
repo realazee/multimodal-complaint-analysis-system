@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complaints List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Details</th>
+                <th>Type</th>
+                <th>Created At</th>
+                <th>Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ complaint[0] }}</td>
+                <td>{{ complaint[1] }}</td>
+                <td>{{ complaint[2] }}</td>
+                <td>{{ complaint[3] }}</td>
+                <td><a href="{{ url_for('complaint', id=complaint[0]) }}">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
