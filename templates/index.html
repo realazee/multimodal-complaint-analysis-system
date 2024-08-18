@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Input or File Upload</title>
+</head>
+<body>
+    <h2>Enter Text or Upload a File</h2>
+    <form action="/submit" method="post" enctype="multipart/form-data">
+        <label for="complaintType">Complaint Type:</label>
+        <select id="complaintType" name="complaintType">
+            <option value="text">Text</option>
+            <option value="voice">Voice</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+        </select><br><br>
+    
+        <label for="userText">Enter Text:</label><br>
+        <textarea id="userText" name="userText" rows="4" cols="50"></textarea><br><br>
+    
+        <label for="fileUpload">Or Upload a File:</label><br>
+        <input type="file" id="fileUpload" name="fileUpload"><br><br>
+    
+        <input type="submit" value="Submit">
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS aggregator;
+USE aggregator;
+
+DROP TABLE IF EXISTS complaints CASCADE;
+
+
+CREATE TABLE complaints (
+    id SERIAL PRIMARY KEY,
+    details TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
